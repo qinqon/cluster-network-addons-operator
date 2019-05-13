@@ -13,18 +13,18 @@ function assert_condition() {
     timeout=$2
 
     echo "Wait until NetworkAddonsConfig reports ${condition} condition"
-    if ./cluster/kubectl.sh wait networkaddonsconfig cluster --for condition=${condition} --timeout=${timeout}; then
+    if $script_root/kubectl.sh wait networkaddonsconfig cluster --for condition=${condition} --timeout=${timeout}; then
         echo 'OK'
     else
         echo "Status has not reached ${condition} condition within the timeout. Actual state:"
-        ./cluster/kubectl.sh get networkaddonsconfig cluster -o yaml
+        $script_root/kubectl.sh get networkaddonsconfig cluster -o yaml
         echo 'FAILED'
         exit 1
     fi
 }
 
 new_test 'Test invalid configuration'
-cat <<EOF | ./cluster/kubectl.sh apply -f -
+cat <<EOF | $script_root/kubectl.sh apply -f -
 apiVersion: networkaddonsoperator.network.kubevirt.io/v1alpha1
 kind: NetworkAddonsConfig
 metadata:
@@ -40,7 +40,7 @@ EOF
 assert_condition Failing 60s
 
 new_test 'Test valid configuration'
-cat <<EOF | ./cluster/kubectl.sh apply -f -
+cat <<EOF | $script_root/kubectl.sh apply -f -
 apiVersion: networkaddonsoperator.network.kubevirt.io/v1alpha1
 kind: NetworkAddonsConfig
 metadata:

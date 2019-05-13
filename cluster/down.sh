@@ -1,6 +1,8 @@
 #!/bin/bash -e
 
-source ./cluster/gocli.sh
+script_root=$( cd $( dirname ${BASH_SOURCE[0]} ) && pwd )
+
+source $script_root/gocli.sh
 
 echo 'Bringing down cluster and client ...'
 $gocli rm

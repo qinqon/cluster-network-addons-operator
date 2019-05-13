@@ -1,8 +1,8 @@
 #!/bin/bash -e
 
-SCRIPT_ROOT=$(dirname "${BASH_SOURCE}")/..
+script_root=$( cd $( dirname ${BASH_SOURCE[0]} ) && pwd )
 
-source ${SCRIPT_ROOT}/cluster/gocli.sh
+source ${script_root}/gocli.sh
 
 if [[ -t 1 ]]; then
     $gocli_interactive "$@"
